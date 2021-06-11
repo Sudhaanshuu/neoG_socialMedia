@@ -12,7 +12,7 @@ export const Following = () => {
   return (
     <>
       {user.following.map((userId) => (
-        <ShowList userId={userId} />
+        <ShowList key={userId} userId={userId} />
       ))}
     </>
   );

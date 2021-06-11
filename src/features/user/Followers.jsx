@@ -13,7 +13,7 @@ export const Followers = () => {
   return (
     <>
       {user.followers.map((userId) => (
-        <ShowList userId={userId} />
+        <ShowList key={userId} userId={userId} />
       ))}
     </>
   );
