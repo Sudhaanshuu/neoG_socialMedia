@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { textImage, userImage, link } from "../../utils/styles";
 import { toggleFollow } from "./userSlice";
 
@@ -23,6 +23,7 @@ export const ShowList = ({ userId }) => {
   const user = useSelector((state) => state.users.users).find(
     (user) => user._id === userId
   );
+  const navigate = useNavigate();
   const currentUser = useSelector((state) => state.auth);
   const textForButton =
     currentUser._id === userId
@@ -37,12 +38,16 @@ export const ShowList = ({ userId }) => {
         <section className="flex flex-col justify-center">
           {user.image ? (
             <img
+              onClick={() => navigate(`/${user.username}`)}
               className={userImage}
               src={user.image}
               alt="userDP"
             />
           ) : (
-            <span className={textImage}>
+            <span
+              onClick={() => navigate(`/${user.username}`)}
+              className={textImage}
+            >
               {user.name.charAt(0)}
             </span>
           )}
@@ -64,8 +69,18 @@ export const ShowList = ({ userId }) => {
           </button>
         </section>
         <section className="mx-3">
-          <h1 className="text-2xl font-bold text-blue-900">{user.name}</h1>
-          <h3 className="font-medium text-blue-500">@{user.username}</h3>
+          <h1
+            onClick={() => navigate(`/${user.username}`)}
+            className="text-2xl font-bold text-blue-900 hover:underline cursor-pointer"
+          >
+            {user.name}
+          </h1>
+          <h3
+            onClick={() => navigate(`/${user.username}`)}
+            className="font-medium text-blue-500"
+          >
+            @{user.username}
+          </h3>
           <p>{user.bio}</p>
           {user.link && (
             <span>
