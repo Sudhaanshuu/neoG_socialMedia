@@ -5,6 +5,8 @@ Fixes
 * Add user details to comment
 * Design user profile, add logic for follower and following
 * Start with backend
+* Add display picture - URL
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts

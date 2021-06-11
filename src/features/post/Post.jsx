@@ -9,9 +9,9 @@ export const Post = ({ post }) => {
   const user = useSelector((state) => state.users.users).find(
     (user) => user._id === post.user
   );
+  const currentUser = useSelector((state) => state.auth);
   const postedDate = getPostedTime(post.created, new Date());
   const navigate = useNavigate();
-
   return (
     <div className="m-3 p-2 border border-black-900 flex">
       {user.image ? (
@@ -36,24 +36,27 @@ export const Post = ({ post }) => {
         >
           {user.name}
         </b>
-        <small className="cursor-pointer" onClick={() => navigate(`/${user.username}`)}>
+        <small
+          className="cursor-pointer"
+          onClick={() => navigate(`/${user.username}`)}
+        >
           @{user.username} . {postedDate}
         </small>
         <section className="post-data">
           <p>{post.description}</p>
-          <div>
-            <span
-              className="px-2"
-              onClick={() => postDispatch(likeButtonPressed(post._id))}
-            >
-              <i className="pr-1 far fa-heart text-red-700"></i>
+          <div className="my-1">
+            <span className="px-2">
+              <i
+                className={`pr-1 cursor-pointer fa-lg ${post.likes.includes(currentUser._id)?"fas":"far"} fa-heart text-red-700 hover:opacity-80`}
+                onClick={() => postDispatch(likeButtonPressed({postId:post._id, user: currentUser._id}))}
+              ></i>
               {post.likes.length}
             </span>
-            <span
-              className="px-2"
-              onClick={() => navigate(`${user.username}/post/${post._id}`)}
-            >
-              <i className="pr-1 far fa-comment-alt text-blue-700"></i>
+            <span className="px-2">
+              <i
+                className="pr-1 cursor-pointer fa-lg far fa-comment-alt text-blue-700 hover:opacity-80"
+                onClick={() => navigate(`${user.username}/post/${post._id}`)}
+              ></i>
               {post.comments.length}
             </span>
           </div>

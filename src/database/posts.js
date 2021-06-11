@@ -19,7 +19,7 @@ export const PostData = [
     created: new Date(2021,11,10),
     description:
       "Learning redux toolkit today. Let's see how it turns out to be",
-    likes: [],
+    likes: ["u126"],
     comments: [],
     user: "u125",
   },
