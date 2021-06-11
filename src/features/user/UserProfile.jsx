@@ -65,7 +65,7 @@ export const UserProfile = () => {
               {textForButton}
             </button>
           </section>
-          <section className="mx-2">
+          <section className="ml-3">
             <h1 className="text-2xl font-bold text-blue-900">{user.name}</h1>
             <h3 className="font-medium text-blue-500">@{username}</h3>
             <p>{user.bio}</p>

@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { getPostedTime } from "../../utils/postedTime";
 import { commentBtn, textImage, userImage } from "../../utils/styles";
-import { addComment, likeButtonPressed } from "./postSlice";
+import { commentButtonPressed, likeButtonPressed } from "./postSlice";
 
 export const PostDetails = () => {
+  const commentRef = useRef(null);
   const navigate = useNavigate();
   const { postId, username } = useParams();
   const currentUser = useSelector((state) => state.auth);
@@ -25,6 +26,10 @@ export const PostDetails = () => {
   });
   const [charCount, setCharCount] = useState(0);
 
+  useEffect(() => {
+    commentRef.current.focus();
+  },[]);
+
   return (
     <>
       <div className="m-3 p-2 border border-black-900">
@@ -42,7 +47,7 @@ export const PostDetails = () => {
           <div className="flex flex-col m-1">
             <Link
               to={`/${username}`}
-              className="text-xl font-semibold mr-1 text-blue-900"
+              className="text-xl font-semibold mr-1 text-blue-900 hover:underline"
             >
               {user.name}
             </Link>
@@ -79,7 +84,8 @@ export const PostDetails = () => {
       </div>
       <div className="relative">
         <textarea
-          className="border border-black-900 mx-3 w-11/12 p-1 h-24"
+        ref={commentRef}
+          className="border border-black-900 bg-blue-50 mx-3 w-11/12 p-1 h-24 resize-none"
           placeholder="Write a comment"
           maxLength="280"
           value={commentData.comment}
@@ -93,7 +99,7 @@ export const PostDetails = () => {
           disabled={!commentData.comment}
           onClick={() => {
             postDispatch(
-              addComment({
+              commentButtonPressed({
                 postId,
                 comment: commentData.comment,
                 user: commentData.user,
@@ -108,7 +114,7 @@ export const PostDetails = () => {
       </div>
       {postData.comments.map((data) => (
         <div key={data._id} className="border border-black-900 p-2 mx-2 my-1">
-          <p>{data.comment}</p>
+          <p className="font-medium">{data.comment}</p>
           <Link
             to={`/${data.user}`}
             className="text-sm hover:underline text-blue-800"

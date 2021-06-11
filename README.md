@@ -3,7 +3,6 @@ Fixes
 * Dp size in post not equal
 * Create a separate model for comments - within post, store comment id and populate
 * Add user details to comment
-* Design user profile, add logic for follower and following
 * Start with backend
 * Add display picture - URL
 

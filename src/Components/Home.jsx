@@ -1,12 +1,12 @@
+import { CreatePost } from "../features/post/CreatePost";
 import { Posts } from "../features/post/Posts";
+import { SearchBox } from "../features/user/SearchBox";
 
 export const Home = () => {
   return (
     <>
-      <h1 className="m-2 font-semibold text-blue-900 text-2xl text-center">
-        {" "}
-        Social Media App
-      </h1>
+      <SearchBox />
+      <CreatePost />
       <Posts />
     </>
   );

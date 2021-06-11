@@ -13,7 +13,7 @@ export const Post = ({ post }) => {
   const postedDate = getPostedTime(post.created, new Date());
   const navigate = useNavigate();
   return (
-    <div className="m-3 p-2 border border-black-900 flex">
+    <div className="m-3 px-1 py-2 border border-black-900 flex">
       {user.image ? (
         <img
           onClick={() => navigate(`/${user.username}`)}
@@ -29,7 +29,7 @@ export const Post = ({ post }) => {
           {user.name.charAt(0)}
         </span>
       )}
-      <div className="mx-1">
+      <div className="ml-2 w-full">
         <b
           className="mr-1 hover:underline cursor-pointer"
           onClick={() => navigate(`/${user.username}`)}
@@ -43,9 +43,9 @@ export const Post = ({ post }) => {
           @{user.username} . {postedDate}
         </small>
         <section className="post-data">
-          <p>{post.description}</p>
+          <p className="font-normal">{post.description}</p>
           <div className="my-1">
-            <span className="px-2">
+            <span className="pr-2">
               <i
                 className={`pr-1 cursor-pointer fa-lg ${post.likes.includes(currentUser._id)?"fas":"far"} fa-heart text-red-700 hover:opacity-80`}
                 onClick={() => postDispatch(likeButtonPressed({postId:post._id, user: currentUser._id}))}
