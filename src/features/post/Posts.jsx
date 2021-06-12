@@ -7,7 +7,8 @@ export const Posts = ({userPosts}) => {
   postData = userPosts? userPosts : postData;
   return (
     <div>
-      {postData.map((post) => (
+      {postData.slice(0)
+          .reverse().map((post) => (
        <Post post={post} key={post._id}/>
       ))}
     </div>

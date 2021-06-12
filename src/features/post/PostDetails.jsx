@@ -112,7 +112,8 @@ export const PostDetails = () => {
         </button>
         <p className={`absolute right-10 bottom-2 ${charCount>270?"text-red-700 font-medium":"text-blue-900"}`}>{charCount}/280</p>
       </div>
-      {postData.comments.map((data) => (
+      {postData.comments.slice(0)
+          .reverse().map((data) => (
         <div key={data._id} className="border border-black-900 p-2 mx-2 my-1">
           <p className="font-medium">{data.comment}</p>
           <Link

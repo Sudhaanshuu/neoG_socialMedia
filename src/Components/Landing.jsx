@@ -1,10 +1,20 @@
-import { Link } from "react-router-dom"
-import {primaryBtn} from "../utils/styles";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom"
+
 
 export const Landing = () => {
+    const navigate = useNavigate();
+    const currentUser = useSelector(state => state.auth);
+    useEffect(() => {
+        if(currentUser.token){
+            navigate("/home");
+        }
+    },[currentUser]);
+
     return(
         <>
-        <Link className={primaryBtn} to="/home">Home Page</Link>
+       <button>Login</button>
         </>
     )
 }
