@@ -11,7 +11,7 @@ module.exports = {
     },
     extend: {
       minHeight: {
-        body: "75vh",
+        body: "78vh",
       },
     },
   },

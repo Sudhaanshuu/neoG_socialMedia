@@ -10,6 +10,8 @@ import { UserProfile } from "./features/user/UserProfile";
 import { SearchUsers } from "./features/user/SearchUsers";
 import { Landing } from "./Components/Landing";
 import { EditProfile } from "./features/user/EditProfile";
+import { Login } from "./features/authentication/Login";
+import { Signup } from "./features/authentication/Signup";
 
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
       <div className="px-2 min-h-body">
       <Routes>
         <Route path="/" element={<Landing />}/>
+        <Route path="/login" element={<Login />}/>
+        <Route path="/signup" element={<Signup />}/>
         <Route path="/home" element={<Home />} />
         <Route path="/:username" element={<UserProfile />} />
         <Route path="/:username/profile" element={<EditProfile />}/>

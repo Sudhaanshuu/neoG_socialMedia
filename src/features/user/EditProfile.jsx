@@ -14,7 +14,7 @@ export const EditProfile = () => {
   );
   const [user, setUser] = useState(initialState);
   const [charCount, setCharCount] = useState(user.bio.length);
- const [error, setError] = useState("");
+  const [error, setError] = useState("");
 
   const cancelChanges = (e) => {
     e.preventDefault();
@@ -23,11 +23,10 @@ export const EditProfile = () => {
   };
   const validateForm = (e) => {
     e.preventDefault();
-    if(validateImageURL()){
+    if (validateImageURL()) {
       userDispatch(updateProfile(user));
       navigate(`/${username}`);
-    }
-    else{
+    } else {
       setError("Photo URL must be of jpeg, jpg, png, gif or svg extension.");
     }
   };
@@ -58,6 +57,8 @@ export const EditProfile = () => {
           <div className="flex justify-between items-center py-2 px-1 m-auto">
             <label className="font-medium">Name: </label>
             <input
+              maxLength="50"
+              required
               className="p-2 text-blue-700 bg-blue-50 rounded-lg focus:outline-none focus:ring focus:border-blue-300 w-48 sm:w-80"
               value={user.name}
               onChange={(e) =>
@@ -89,12 +90,12 @@ export const EditProfile = () => {
             <input
               className="p-2 text-blue-700 bg-blue-50 rounded-lg focus:outline-none focus:ring focus:border-blue-300 w-48 sm:w-80"
               value={user.image}
-              onChange={(e) => setUser((data) => ({ ...data, image: e.target.value }))}
+              onChange={(e) =>
+                setUser((data) => ({ ...data, image: e.target.value }))
+              }
             />
           </div>
-          <div className="text-red-600">
-            {error}
-          </div>
+          <div className="text-red-600">{error}</div>
           <div className="flex justify-evenly items-center py-2 px-1 md:w-3/4 m-auto">
             <button
               className="uppercase font-semibold tracking-wide bg-blue-700 text-blue-100 px-4 py-2 rounded-lg rounded-lg focus:outline-none hover:bg-blue-800 w-1/2 mr-1"
@@ -114,4 +115,3 @@ export const EditProfile = () => {
     </section>
   );
 };
-

@@ -37,7 +37,7 @@ export const ShowList = ({ userId }) => {
   return (
     <div className="m-2 p-1 border border-black-900 relative">
       <div className="flex justify-start">
-        <section className="flex flex-col justify-center">
+        <section className="flex flex-col justify-center self-start w-24">
           {user.image ? (
             <img onClick={() => navigate(`/${user.username}`)}
               className={userImage}
@@ -66,7 +66,7 @@ export const ShowList = ({ userId }) => {
             {textForButton}
           </button>
         </section>
-        <section className="mx-3">
+        <section className="mx-3 w-full">
           <h1 onClick={() => navigate(`/${user.username}`)} className="text-2xl font-bold text-blue-900 cursor-pointer hover:underline">{user.name}</h1>
           <h3 onClick={() => navigate(`/${user.username}`)} className="font-medium text-blue-500 cursor-pointer">@{user.username}</h3>
           <p>{user.bio}</p>
