@@ -8,6 +8,8 @@ import { Followers } from "./features/user/Followers";
 import { Following } from "./features/user/Following";
 import { UserProfile } from "./features/user/UserProfile";
 import { SearchUsers } from "./features/user/SearchUsers";
+import { Landing } from "./Components/Landing";
+import { EditProfile } from "./features/user/EditProfile";
 
 
 function App() {
@@ -16,8 +18,10 @@ function App() {
       <Navigation />
       <div className="px-2 min-h-body">
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Landing />}/>
+        <Route path="/home" element={<Home />} />
         <Route path="/:username" element={<UserProfile />} />
+        <Route path="/:username/profile" element={<EditProfile />}/>
         <Route path="/:username/following" element={<Following />} />
         <Route path="/:username/followers" element={<Followers />} />
         <Route path="/:username/post/:postId" element={<PostDetails />} />

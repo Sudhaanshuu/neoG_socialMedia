@@ -1,7 +1,7 @@
 export const Footer = () => {
   return (
     <footer className="bg-blue-900 p-6">
-      <h3 className="text-blue-50 font-semibold mb-2 text-xl">
+      <h3 className=" text-center text-blue-50 font-semibold mb-2 text-xl">
         Made with <i className="fas fa-heart text-yellow-600"></i> by{" "}
         <span className="text-yellow-600">Supminn</span>
       </h3>

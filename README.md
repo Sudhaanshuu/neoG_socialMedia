@@ -1,10 +1,10 @@
 Fixes
-* Month in moment showing 1 month greater
-* Dp size in post not equal
-* Create a separate model for comments - within post, store comment id and populate
-* Add user details to comment
+* Create Home Page
 * Start with backend
-* Add display picture - URL
+* Month in moment showing one month greater
+* Create a separate model for comments - within the post, store comment id and populate
+* Add user details to comment
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 

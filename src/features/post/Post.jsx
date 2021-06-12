@@ -14,7 +14,8 @@ export const Post = ({ post }) => {
   const navigate = useNavigate();
   return (
     <div className="m-3 px-1 py-2 border border-black-900 flex">
-      {user.image ? (
+    <section className="w-20">
+    {user.image ? (
         <img
           onClick={() => navigate(`/${user.username}`)}
           className={userImage}
@@ -29,6 +30,7 @@ export const Post = ({ post }) => {
           {user.name.charAt(0)}
         </span>
       )}
+    </section>
       <div className="ml-2 w-full">
         <b
           className="mr-1 hover:underline cursor-pointer"
@@ -43,7 +45,7 @@ export const Post = ({ post }) => {
           @{user.username} . {postedDate}
         </small>
         <section className="post-data">
-          <p className="font-normal">{post.description}</p>
+          <p className="font-normal cursor-pointer" onClick={() => navigate(`/${user.username}/post/${post._id}`)}>{post.description}</p>
           <div className="my-1">
             <span className="pr-2">
               <i
@@ -55,7 +57,7 @@ export const Post = ({ post }) => {
             <span className="px-2">
               <i
                 className="pr-1 cursor-pointer fa-lg far fa-comment-alt text-blue-700 hover:opacity-80"
-                onClick={() => navigate(`${user.username}/post/${post._id}`)}
+                onClick={() => navigate(`/${user.username}/post/${post._id}`)}
               ></i>
               {post.comments.length}
             </span>

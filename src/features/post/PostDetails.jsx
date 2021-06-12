@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { getPostedTime } from "../../utils/postedTime";
-import { commentBtn, textImage, userImage } from "../../utils/styles";
+import { primaryBtn, textImage, userImage } from "../../utils/styles";
 import { commentButtonPressed, likeButtonPressed } from "./postSlice";
 
 export const PostDetails = () => {
@@ -31,7 +31,7 @@ export const PostDetails = () => {
   },[]);
 
   return (
-    <>
+    <div className="shadow-xl pb-1 m-auto w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
       <div className="m-3 p-2 border border-black-900">
         <div className="flex">
           {user.image ? (
@@ -82,10 +82,10 @@ export const PostDetails = () => {
           </div>
         </section>
       </div>
-      <div className="relative">
+      <div className="relative mx-3">
         <textarea
         ref={commentRef}
-          className="border border-black-900 bg-blue-50 mx-3 w-11/12 p-1 h-24 resize-none"
+          className="border border-black-900 bg-blue-50 p-1.5 w-full h-24 resize-none outline-none focus:ring focus:ring-blue-200"
           placeholder="Write a comment"
           maxLength="280"
           value={commentData.comment}
@@ -95,7 +95,7 @@ export const PostDetails = () => {
           }}
         ></textarea>
         <button
-          className={commentBtn}
+          className={`${primaryBtn} ml-0`}
           disabled={!commentData.comment}
           onClick={() => {
             postDispatch(
@@ -126,6 +126,6 @@ export const PostDetails = () => {
           </small>
         </div>
       ))}
-    </>
+    </div>
   );
 };

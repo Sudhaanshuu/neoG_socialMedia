@@ -10,11 +10,11 @@ export const Following = () => {
   );
 
   return (
-    <>
+    <div className="shadow-xl pb-0.5 m-auto w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
       {user.following.map((userId) => (
         <ShowList key={userId} userId={userId} />
       ))}
-    </>
+    </div>
   );
 };
 

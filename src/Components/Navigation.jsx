@@ -8,7 +8,7 @@ export const Navigation = () => {
     const currentUser = useSelector(state => state.auth);
 
   return (
-    <nav className="z-10 flex justify-between items-center h-12 sticky top-0 mb-1 p-4 bg-blue-900 rounded-b-xl">
+    <nav className="z-10 flex justify-between items-center h-12 sticky top-0 mb-1 p-4 pl-3 bg-blue-900 rounded-b-lg">
       <div className="flex justify-center items-center cursor-pointer " onClick={() => navigate("/")}>
         <img
           className="h-auto w-12 rounded-full shadow-lg"

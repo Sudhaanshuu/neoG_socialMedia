@@ -25,7 +25,7 @@ export const UsersData = [{
         username:"admin",
         image:"https://upload.wikimedia.org/wikipedia/commons/a/a6/User-admin.svg",
         name:"Admin",
-        bio:"This is Admin's official account",
+        bio:"This is Admin's official account. This is Admin's official account. This is Admin's official account. This is Admin's official account.",
         link:"",
         followers:["u125", "u126"],
         following:["u125"],

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { commentBtn, textImage, userImage } from "../../utils/styles";
+import { primaryBtn, textImage, userImage } from "../../utils/styles";
 import { postButtonPressed } from "./postSlice";
 
 export const CreatePost = () => {
@@ -45,7 +45,7 @@ export const CreatePost = () => {
           onChange={(e) => setPostData(e.target.value)}
         ></textarea>
 
-        <button onClick={addPost} className={commentBtn}>
+        <button onClick={addPost} className={primaryBtn}>
           Post
         </button>
         <small

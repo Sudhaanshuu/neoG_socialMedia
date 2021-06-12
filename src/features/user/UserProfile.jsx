@@ -1,16 +1,14 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { textImage, userImage, link } from "../../utils/styles";
 import { Posts } from "../post/Posts";
-import { EditProfile } from "./EditProfile";
 import { toggleFollow } from "./userSlice";
 
 export const UserProfile = () => {
   const { username } = useParams();
   const userDispatch = useDispatch();
-  const [editProfile, setEditProfile] = useState(false);
+  const navigate = useNavigate();
   const user = useSelector((state) => state.users.users).find(
     (user) => user.username === username
   );
@@ -32,17 +30,17 @@ export const UserProfile = () => {
         );
         break;
       case "Edit Profile":
-        setEditProfile(true);
+        navigate(`/${username}/profile`);
         break;
       default:
         break;
     }
   };
-  return editProfile?<EditProfile setEditProfile={setEditProfile}/>:(
-    <>
+  return (
+    <div className="shadow-xl pb-0.5 m-auto w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
       <div className="m-2 p-1 border border-black-900 relative">
-        <div className="flex justify-between">
-          <section className="flex flex-col justify-center">
+        <div className="flex">
+          <section className="flex flex-col justify-center self-start w-40">
             {user.image ? (
               <img
                 className={`${userImage} h-24 w-24`}
@@ -56,7 +54,7 @@ export const UserProfile = () => {
             )}
             <button
               onClick={buttonClicked}
-              className={`border border-blue-900 font-medium  rounded-xl py-0.5 ${
+              className={`border border-blue-900 font-medium rounded-sm py-0.5 ${
                 textForButton === "Following"
                   ? "bg-blue-600 text-blue-100 hover:opacity-90"
                   : "text-blue-900 hover:bg-blue-100"
@@ -65,7 +63,7 @@ export const UserProfile = () => {
               {textForButton}
             </button>
           </section>
-          <section className="ml-3">
+          <section className="w-full ml-3 sm:ml-8">
             <h1 className="text-2xl font-bold text-blue-900">{user.name}</h1>
             <h3 className="font-medium text-blue-500">@{username}</h3>
             <p>{user.bio}</p>
@@ -100,7 +98,7 @@ export const UserProfile = () => {
       </div>
       <h3 className="text-center text-blue-900 font-medium text-xl">Posts</h3>
      <Posts userPosts={userPosts}/>
-    </>
+    </div>
   );
 };
 
