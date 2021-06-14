@@ -16,12 +16,17 @@ export const Navigation = () => {
           alt="logo"
         />
         <h2 className="font-cursive text-2xl px-1 text-blue-100">
-          Socialize
+          SupSocial
         </h2>
       </div>
+      <div className="w-14 flex justify-between">
+      <Link to={`/search`}>
+        <i className="fas fa-search fa-lg text-blue-100"></i>
+      </Link>
       <Link to={`/${currentUser.username}`}>
         <i className="fas fa-user fa-lg text-blue-100"></i>
       </Link>
+      </div>
     </nav>
   );
 };

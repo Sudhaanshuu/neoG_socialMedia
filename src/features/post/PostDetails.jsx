@@ -31,7 +31,7 @@ export const PostDetails = () => {
   },[]);
 
   return (
-    <div className="shadow-xl pb-1 m-auto w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
+    <div className="shadow-xl py-1 m-auto w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
       <div className="m-3 p-2 border border-black-900">
         <div className="flex">
           {user.image ? (

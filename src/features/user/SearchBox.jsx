@@ -14,9 +14,9 @@ export const SearchBox = () => {
   };
   
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center py-2">
       <input
-        className="border border-blue-900 p-1 bg-blue-50 text-blue-900 font-normal"
+        className="border border-blue-900 p-1 bg-blue-50 text-blue-900 font-normal sm:w-3/4 md:w-1/2"
         onKeyDown={searchOnEnter}
         onChange={(e) => setSearchText(e.target.value)}
         placeholder="Search for user"

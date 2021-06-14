@@ -14,7 +14,7 @@ export const Landing = () => {
   }, [currentUser]);
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center items-center">
+    <div className="flex flex-col lg:flex-row justify-center items-center py-1">
       <img className="w-full p-1 sm:w-1/2 lg:w-8/12" src={Social} alt="Landing page" />
       <section className="text-center">
         <h1 className="font-bold text-4xl m-2">Jump Rope Community</h1>
