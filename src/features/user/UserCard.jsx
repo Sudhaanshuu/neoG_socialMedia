@@ -9,7 +9,7 @@ export const UserCard = ({ userId }) => {
     const user = useSelector((state) => state.users.users).find(
       (user) => user._id === userId
     );
-    const currentUser = useSelector((state) => state.auth);
+    const currentUser = useSelector((state) => state.auth.login);
     const textForButton =
     currentUser._id === userId
       ? ""
@@ -39,7 +39,7 @@ export const UserCard = ({ userId }) => {
                   toggleFollow({ currentUser: currentUser._id, user: user._id })
                 )
               }
-              className={`border border-blue-900 font-medium  rounded-xl py-0.5 ${
+              className={`border border-blue-900 font-medium  rounded-sm py-0.5 ${
                   textForButton === "Following"
                     ? "bg-blue-600 text-blue-100 hover:opacity-90"
                     : textForButton === "Follow"

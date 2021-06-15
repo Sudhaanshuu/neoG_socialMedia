@@ -7,7 +7,6 @@ export const SearchUsers = () => {
   let users = useSelector((state) => state.users.users);
   const query = new URLSearchParams(useLocation().search);
   const searchValue = query.get("user");
-  console.log(searchValue);
   users = searchValue
     ? users.filter(
         (user) =>

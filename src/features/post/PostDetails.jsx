@@ -1,7 +1,9 @@
+import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { API_URL } from "../../utils/api_details";
 import { getPostedTime } from "../../utils/postedTime";
 import { primaryBtn, textImage, userImage } from "../../utils/styles";
 import { commentButtonPressed, likeButtonPressed } from "./postSlice";
@@ -10,16 +12,16 @@ export const PostDetails = () => {
   const commentRef = useRef(null);
   const navigate = useNavigate();
   const { postId, username } = useParams();
-  const currentUser = useSelector((state) => state.auth);
+  const currentUser = useSelector((state) => state.auth.login);
 
-  const postData = useSelector((state) => state.posts.posts).find(
+  let postData = useSelector((state) => state.posts.posts).find(
     (post) => post._id === postId
   );
   const postDispatch = useDispatch();
   const user = useSelector((state) => state.users.users).find(
     (user) => user.username === username
   );
-  
+  const [postComments, setPostComments] = useState([]);
   const [commentData, setCommentData] = useState({
     comment: "",
     user: currentUser.username,
@@ -28,7 +30,14 @@ export const PostDetails = () => {
 
   useEffect(() => {
     commentRef.current.focus();
-  },[]);
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios.get(`${API_URL}/post/${postId}/comments`);
+      setPostComments(data.comments);
+    })();
+  }, []);
 
   return (
     <div className="shadow-xl py-1 m-auto w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
@@ -84,7 +93,7 @@ export const PostDetails = () => {
       </div>
       <div className="relative mx-3">
         <textarea
-        ref={commentRef}
+          ref={commentRef}
           className="border border-black-900 bg-blue-50 p-1.5 w-full h-24 resize-none outline-none focus:ring focus:ring-blue-200"
           placeholder="Write a comment"
           maxLength="280"
@@ -110,23 +119,35 @@ export const PostDetails = () => {
         >
           Comment
         </button>
-        <p className={`absolute right-10 bottom-2 ${charCount>270?"text-red-700 font-medium":"text-blue-900"}`}>{charCount}/280</p>
+        <p
+          className={`absolute right-10 bottom-2 ${
+            charCount > 270 ? "text-red-700 font-medium" : "text-blue-900"
+          }`}
+        >
+          {charCount}/280
+        </p>
       </div>
-      {postData.comments.slice(0)
-          .reverse().map((data) => (
-        <div key={data._id} className="border border-black-900 p-2 mx-2 my-1">
-          <p className="font-medium">{data.comment}</p>
-          <Link
-            to={`/${data.user}`}
-            className="text-sm hover:underline text-blue-800"
-          >
-            @{data.user}
-          </Link>
-          <small className="px-1">
-            . {getPostedTime(data.created, new Date())}
-          </small>
-        </div>
-      ))}
+      {postComments.length>0 &&
+        postComments
+          .slice(0)
+          .reverse()
+          .map((data) => (
+            <div
+              key={data._id}
+              className="border border-black-900 p-2 mx-2 my-1"
+            >
+              <p className="font-normal">{data.comment}</p>
+              <Link
+                to={`/${data.user.username}`}
+                className="text-sm hover:underline text-blue-800"
+              >
+                @{data.user.username}
+              </Link>
+              <small className="px-1">
+                . {getPostedTime(new Date(data.createdAt), new Date())}
+              </small>
+            </div>
+          ))}
     </div>
   );
 };

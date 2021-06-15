@@ -6,16 +6,16 @@ import { likeButtonPressed } from "./postSlice";
 
 export const Post = ({ post }) => {
   const postDispatch = useDispatch();
-  const user = useSelector((state) => state.users.users).find(
+  let user = useSelector((state) => state.users.users).find(
     (user) => user._id === post.user
   );
-  const currentUser = useSelector((state) => state.auth);
-  const postedDate = getPostedTime(post.created, new Date());
+  const currentUser = useSelector((state) => state.auth.login);
+  const postedDate = getPostedTime(new Date(post.createdAt), new Date());
   const navigate = useNavigate();
   return (
     <div className="m-3 px-1 py-2 border border-black-900 flex">
     <section className="w-20">
-    {user.image ? (
+    {user?.image ? (
         <img
           onClick={() => navigate(`/${user.username}`)}
           className={userImage}

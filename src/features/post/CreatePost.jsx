@@ -6,7 +6,7 @@ import { postButtonPressed } from "./postSlice";
 
 export const CreatePost = () => {
   const postDispatch = useDispatch();
-  const currentUser = useSelector((state) => state.auth);
+  const currentUser = useSelector((state) => state.auth.login);
   const user = useSelector((state) => state.users.users).find(
     (user) => user._id === currentUser._id
   );
@@ -21,19 +21,19 @@ export const CreatePost = () => {
 
   return (
     <div className="m-3 border border-black-900 flex bg-blue-50">
-      {user.image ? (
+      {user?.image ? (
         <img
-          onClick={() => navigate(`/${user.username}`)}
+          onClick={() => navigate(`/${currentUser.username}`)}
           className={userImage}
           src={user.image}
           alt="userDP"
         />
       ) : (
         <span
-          onClick={() => navigate(`/${user.username}`)}
+          onClick={() => navigate(`/${currentUser.username}`)}
           className={textImage}
         >
-          {user.name.charAt(0)}
+          {currentUser.name.charAt(0)}
         </span>
       )}
       <div className="ml-1 w-9/12 relative">
@@ -61,3 +61,5 @@ export const CreatePost = () => {
     </div>
   );
 };
+
+//change currentUser references to user references

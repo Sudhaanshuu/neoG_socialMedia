@@ -14,6 +14,12 @@ export const Followers = () => {
       {user.followers.map((userId) => (
         <UserCard key={userId} userId={userId} />
       ))}
+      {user.followers.length === 0 && (
+        <div className="text center p-10">
+        <h2 className="font-semibold text-xl">@{username} doesn't have any followers.</h2>
+        <p>When they do, they’ll be listed here.</p>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,16 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Password } from "./Password";
 import { primaryBtn, secondaryBtn } from "../../utils/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "./authenticationSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Login = () => {
   const [{ username, password }, setCredentials] = useState({
     username: "",
     password: "",
   });
-  const loginHandler = (e) => {
+  const navigate = useNavigate();
+  const auth = useSelector((state) => state.auth);
+  const currentUser = auth.login;
+
+  useEffect(() => {
+    if (currentUser.token) {
+      navigate("/home");
+    }
+  }, [currentUser]);
+
+  const dispatch = useDispatch();
+  const loginHandler = async (e) => {
     e.preventDefault();
-    // logic to login
+    await dispatch(loginUser({ username, password }));
   };
 
   return (
@@ -44,12 +57,15 @@ export const Login = () => {
         <button type="submit" className={`${primaryBtn} mt-2`}>
           Login
         </button>
+        {auth.error && (
+          <p className="text-red-600 text-lg pt-3">{auth.error}</p>
+        )}
       </form>
 
       <div className="p-2 md:w-3/4 lg:w-8/12 m-auto">
         <b className="text-lg">Not a member? </b>
         <Link to="/signup">
-          <button className={`${secondaryBtn} mt-2`}>Sign ip</button>
+          <button className={`${secondaryBtn} mt-2`}>Sign up</button>
         </Link>
       </div>
     </div>

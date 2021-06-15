@@ -1,10 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { PostData } from "../../database/posts";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { API_URL } from "../../utils/api_details";
+
+export const loadPosts = createAsyncThunk("post/loadPosts", async () => {
+  const response = await axios.get(`${API_URL}/post`);
+  return response.data;
+});
 
 export const postSlice = createSlice({
   name: "post",
   initialState: {
-    posts: PostData,
+    posts: [],
+    status:"",
   },
   reducers: {
     likeButtonPressed: (state, { payload }) => {
@@ -45,7 +52,20 @@ export const postSlice = createSlice({
       state.posts = state.posts.concat(newPost);
     },
   },
+  extraReducers:{
+    [loadPosts.pending]:(state) => {
+      state.status = "loading";
+    },
+    [loadPosts.fulfilled]: (state, action) => {
+      state.posts = action.payload.posts;
+      state.status = "fulfilled";
+    },
+    [loadPosts.rejected]: (state, action) => {
+      console.log(action);
+      state.status = "rejected";
+    },
+  }
 });
 
-export const { likeButtonPressed, commentButtonPressed, postButtonPressed } = postSlice.actions;
+export const { likeButtonPressed, commentButtonPressed, postButtonPressed, clearStatus } = postSlice.actions;
 export default postSlice.reducer;

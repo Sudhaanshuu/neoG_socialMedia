@@ -12,7 +12,7 @@ export const UserProfile = () => {
   const user = useSelector((state) => state.users.users).find(
     (user) => user.username === username
   );
-  const currentUser = useSelector((state) => state.auth);
+  const currentUser = useSelector((state) => state.auth.login);
   const textForButton =
     currentUser._id === user._id
       ? "Edit Profile"
