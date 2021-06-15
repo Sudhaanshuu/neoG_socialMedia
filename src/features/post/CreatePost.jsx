@@ -14,8 +14,8 @@ export const CreatePost = () => {
   const [postData, setPostData] = useState("");
 
   const addPost = () => {
-    postDispatch(postButtonPressed({ postData }));
-    setPostData("");
+      postDispatch(postButtonPressed({ postData }));
+      setPostData("");
   };
 
   return (
@@ -44,7 +44,7 @@ export const CreatePost = () => {
           onChange={(e) => setPostData(e.target.value)}
         ></textarea>
 
-        <button onClick={addPost} className={primaryBtn}>
+        <button onClick={addPost} disabled={!postData} className={primaryBtn}>
           Post
         </button>
         <small

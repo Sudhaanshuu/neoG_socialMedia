@@ -2,6 +2,9 @@ module.exports = {
   purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    fontFamily:{
+      cursive:['Dancing Script'],
+    },
     screens:{
       "sm":"576px",
       "md":"768px",
@@ -16,7 +19,7 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {opacity: ['disabled'],},
   },
   plugins: [],
 };
