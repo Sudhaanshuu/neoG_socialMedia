@@ -23,14 +23,19 @@ export const loginUser = createAsyncThunk(
 export const authenticationSlice = createSlice({
   name: "authentication",
   initialState: {
-    login: JSON.parse(localStorage.getItem("login")) || {token: "",
-    _id: "",
-    username: ""
-  },
+    login: JSON.parse(localStorage.getItem("login")) || {
+      token: "",
+      _id: "",
+      username: "",
+    },
     error: "",
-    status:"",
+    status: "",
   },
   reducers: {
+    logoutButtonPressed: (state) => {
+      state.login = { token: "", _id: "", username: "" };
+      localStorage.clear();
+    },
   },
   extraReducers: {
     [loginUser.pending]: (state) => {
@@ -40,15 +45,14 @@ export const authenticationSlice = createSlice({
       const token = action.payload.token;
       const decodedValue = jwt_decode(token);
       const login = {
-        token:`Bearer ${token}`,
-        username:decodedValue.username,
-        _id:decodedValue._id,
-        name: decodedValue.name
+        token: `Bearer ${token}`,
+        username: decodedValue.username,
+        _id: decodedValue._id,
+        name: decodedValue.name,
       };
-      localStorage.setItem("login",JSON.stringify(login));
+      localStorage.setItem("login", JSON.stringify(login));
       state.login = login;
       state.status = "fulfilled";
-
     },
     [loginUser.rejected]: (state, action) => {
       state.error = action.payload;
@@ -57,5 +61,5 @@ export const authenticationSlice = createSlice({
   },
 });
 
-
+export const { logoutButtonPressed } = authenticationSlice.actions;
 export default authenticationSlice.reducer;

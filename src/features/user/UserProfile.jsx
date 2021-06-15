@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { Link, useNavigate } from "react-router-dom";
 import { textImage, userImage, link } from "../../utils/styles";
+import { logoutButtonPressed } from "../authentication/authenticationSlice";
 import { Posts } from "../post/Posts";
 import { toggleFollow } from "./userSlice";
 
@@ -39,7 +40,11 @@ export const UserProfile = () => {
   return (
     <div className="shadow-xl py-1 m-auto w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
       <div className="m-2 p-1 border border-black-900 relative">
-        <div className="flex">
+        <div className="flex relative">
+          {textForButton === "Edit Profile" &&  <i onClick={() => {
+            userDispatch(logoutButtonPressed());
+            navigate("/");
+            }} className="fas fa-sign-out-alt absolute right-1 top-1 cursor-pointer"></i>}
           <section className="flex flex-col justify-center self-start w-40">
             {user.image ? (
               <img
