@@ -36,7 +36,7 @@ export const UserCard = ({ userId }) => {
             <button
               onClick={() =>
                 userDispatch(
-                  toggleFollowButton({ currentUser: currentUser._id, user: user._id })
+                  toggleFollowButton(user._id)
                 )
               }
               className={`border border-blue-900 font-medium  rounded-sm py-0.5 ${

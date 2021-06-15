@@ -40,7 +40,7 @@ function App() {
     }
   }, [currentUser]);
   return (
-    <div className="bg-blue-50 text-blue-900 min-h-screen">
+    <div className="bg-blue-50 text-blue-900 min-h-screen relative">
       <Navigation />
       <Routes>
         <Route path="/" element={<Landing />} />

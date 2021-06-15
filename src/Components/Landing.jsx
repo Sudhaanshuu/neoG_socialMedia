@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Social from "../assets/social.svg";
 import { primaryBtn, secondaryBtn } from "../utils/styles";
@@ -12,7 +12,7 @@ export const Landing = () => {
     if (currentUser.token) {
       navigate("/home");
     }
-  }, [currentUser]);
+  }, [currentUser.token]);
 
   return (
     <div className="flex flex-col lg:flex-row justify-center items-center py-1">

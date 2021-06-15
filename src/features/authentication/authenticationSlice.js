@@ -20,6 +20,26 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const registerUser = createAsyncThunk(
+  "authetication/registerUser",
+  async ({ username, password, name, email }, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/users/signup`, {
+        username,
+        password,
+        name,
+        email
+      });
+      if (data.success) {
+        return fulfillWithValue(data.success);
+      }
+    } catch (err) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+
 export const authenticationSlice = createSlice({
   name: "authentication",
   initialState: {
@@ -30,12 +50,16 @@ export const authenticationSlice = createSlice({
     },
     error: "",
     status: "",
+    signup:false
   },
   reducers: {
     logoutButtonPressed: (state) => {
       state.login = { token: "", _id: "", username: "" };
       localStorage.clear();
     },
+    clearSignupFlag: (state) => {
+      state.signup = false;
+    }
   },
   extraReducers: {
     [loginUser.pending]: (state) => {
@@ -58,8 +82,16 @@ export const authenticationSlice = createSlice({
       state.error = action.payload;
       state.status = "rejected";
     },
+    [registerUser.fulfilled]:(state,action) =>{
+      state.signup = action.payload;
+      state.error = "";
+    },
+    [registerUser.rejected]: (state, action) => {
+      state.error = action.payload;
+      state.status = "rejected";
+    },
   },
 });
 
-export const { logoutButtonPressed } = authenticationSlice.actions;
+export const { logoutButtonPressed, clearSignupFlag } = authenticationSlice.actions;
 export default authenticationSlice.reducer;

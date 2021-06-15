@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { primaryBtn, secondaryBtn } from "../../utils/styles";
+import { clearSignupFlag, registerUser } from "./authenticationSlice";
 import { Password } from "./Password";
 
 export const Signup = () => {
@@ -10,12 +12,16 @@ export const Signup = () => {
     username: "",
     password: "",
   });
-  const signupHandler = (e) => {
+
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
+
+  const signupHandler = async (e) => {
     e.preventDefault();
-    //logic
+    await dispatch(registerUser({ username, password, email, name }));
   };
 
-  return (
+  return auth.signup?<Registered/>:(
     <div className="shadow-xl pb-1 m-auto w-full sm:w-11/12 md:w-3/4 lg:w-8/12 text-center">
       <h2 className="text-2xl font-medium m-3">
         Sign <span className="text-yellow-700">up</span>
@@ -82,6 +88,9 @@ export const Signup = () => {
         <button type="submit" className={`${primaryBtn} mt-2`}>
           Register
         </button>
+        {auth.error && (
+          <p className="text-red-600 text-lg pt-3">{auth.error}</p>
+        )}
       </form>
       <div className="text-lg font-semibold p-2 md:w-3/4 lg:w-8/12 m-auto">
         Already a member?{" "}
@@ -92,3 +101,14 @@ export const Signup = () => {
     </div>
   );
 };
+
+
+const Registered = () => {
+  const userDispatch = useDispatch();
+  return(
+    <div className="shadow-xl pb-1 m-auto w-full sm:w-11/12 md:w-3/4 lg:w-8/12 text-center min-h-body">
+      <h3 className="text-2xl p-4">Thank you for signing up on <b>SupSocial</b>.</h3>
+      <Link onClick={()=>userDispatch(clearSignupFlag())} className={secondaryBtn} to="/login">Login to continue</Link> 
+    </div>
+  )
+}

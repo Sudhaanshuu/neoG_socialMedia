@@ -108,9 +108,11 @@ export const postSlice = createSlice({
       state.posts = state.posts.map((post) =>
         post._id === payload._id ? payload : post
       );
+      state.status = "fulfilled";
     },
     [likeButtonPressed.rejected]: (state, action) => {
       console.log(action.payload);
+      state.status = "rejected";
     },
     [commentButtonPressed.fulfilled]: (state, { payload }) => {
       state.posts = state.posts.map((post) =>
@@ -118,9 +120,11 @@ export const postSlice = createSlice({
           ? { ...post, comments: payload.comments }
           : post
       );
+      state.status = "fulfilled";
     },
     [commentButtonPressed.rejected]: (state, action) => {
       console.log(action.payload);
+      state.status = "rejected";
     },
     [deleteCommentPressed.fulfilled]: (state, { payload }) => {
       let postIndex = state.posts.findIndex(
@@ -129,21 +133,27 @@ export const postSlice = createSlice({
       state.posts[postIndex].comments = state.posts[postIndex].comments.filter(
         (comment) => comment._id !== payload.commentId
       );
+      state.status = "fulfilled";
     },
     [deleteCommentPressed.rejected]: (state, action) => {
       console.log(action.payload);
+      state.status = "rejected";
     },
     [postButtonPressed.fulfilled]: (state, { payload }) => {
       state.posts = state.posts.concat(payload);
+      state.status = "fulfilled";
     },
     [postButtonPressed.rejected]: (state, action) => {
       console.log(action.payload);
+      state.status = "rejected";
     },
     [deletePostPressed.fulfilled]: (state, { payload }) => {
       state.posts = state.posts.filter((post) => post._id !== payload);
+      state.status = "fulfilled";
     },
     [deletePostPressed.rejected]: (state, action) => {
       console.log(action.payload);
+      state.status = "rejected";
     },
   },
 });
