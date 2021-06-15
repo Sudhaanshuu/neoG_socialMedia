@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { textImage, userImage, link } from "../../utils/styles";
-import { toggleFollow } from "./userSlice";
+import { toggleFollowButton } from "./userSlice";
 
 export const UserCard = ({ userId }) => {
     const userDispatch = useDispatch();
@@ -36,7 +36,7 @@ export const UserCard = ({ userId }) => {
             <button
               onClick={() =>
                 userDispatch(
-                  toggleFollow({ currentUser: currentUser._id, user: user._id })
+                  toggleFollowButton({ currentUser: currentUser._id, user: user._id })
                 )
               }
               className={`border border-blue-900 font-medium  rounded-sm py-0.5 ${

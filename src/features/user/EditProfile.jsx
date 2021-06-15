@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
-import { updateProfile } from "./userSlice";
+import { updateUserDetails } from "./userSlice";
 
 export const EditProfile = () => {
   const userDispatch = useDispatch();
@@ -13,7 +13,7 @@ export const EditProfile = () => {
     (user) => user.username === username
   );
   const [user, setUser] = useState(initialState);
-  const [charCount, setCharCount] = useState(user.bio.length);
+  const [charCount, setCharCount] = useState(user?.bio ? user.bio.length : 0);
   const [error, setError] = useState("");
 
   const cancelChanges = (e) => {
@@ -23,27 +23,34 @@ export const EditProfile = () => {
   };
   const validateForm = (e) => {
     e.preventDefault();
-    if (validateImageURL()) {
-      userDispatch(updateProfile(user));
-      navigate(`/${username}`);
-    } else {
+    if (!isImageURLValid()) {
       setError("Photo URL must be of jpeg, jpg, png, gif or svg extension.");
+    }
+    if (!isURLValid()) {
+      setError("Invalid link URL.");
+    } else {
+      userDispatch(updateUserDetails(user));
+      navigate(`/${username}`);
     }
   };
 
-//   function isUrlValid(userInput) {
-//     var res = userInput.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-//     if(res == null)
-//         return false;
-//     else
-//         return true;
-// }
-
-  const validateImageURL = () => {
+  function isURLValid() {
+    if (!user?.link || user.link === "") {
+      return true;
+    }
     if (
-      user.image.match(/\.(jpeg|jpg|gif|png|svg)$/) != null ||
-      user.image === ""
-    ) {
+      user.link.match(
+        /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g
+      ) == null
+    )
+      return false;
+    else return true;
+  }
+
+  const isImageURLValid = () => {
+    if (!user?.image || user.image === "") {
+      return true;
+    } else if (user.image.match(/\.(jpeg|jpg|gif|png|svg)$/) != null) {
       return true;
     }
     return false;
@@ -92,6 +99,16 @@ export const EditProfile = () => {
             >
               {charCount}/160
             </small>
+          </div>
+          <div className="flex justify-between items-center py-2 px-1 m-auto">
+            <label className="font-medium">Website: </label>
+            <input
+              className="p-2 text-blue-700 bg-blue-50 rounded-lg focus:outline-none focus:ring focus:border-blue-300 w-48 sm:w-80"
+              value={user.link}
+              onChange={(e) =>
+                setUser((data) => ({ ...data, link: e.target.value }))
+              }
+            />
           </div>
           <div className="flex justify-between items-center py-2 px-1 m-auto">
             <label className="font-medium">Photo URL: </label>

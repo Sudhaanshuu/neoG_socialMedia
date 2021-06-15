@@ -3,9 +3,41 @@ import axios from "axios";
 import { API_URL } from "../../utils/api_details";
 
 export const getUsers = createAsyncThunk("user/getUsers", async () => {
-  const response = await axios.get(`${API_URL}/users`);
+  const response = await axios.get(`${API_URL}/users/all`);
   return response.data;
 });
+
+export const toggleFollowButton = createAsyncThunk(
+  "user/toggleFollowButton",
+  async (viewerId, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(`${API_URL}/users`, { viewerId });
+      if (data.success) {
+        return fulfillWithValue({ user: data.user, viewer: data.viewer });
+      }
+    } catch (err) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const updateUserDetails = createAsyncThunk(
+  "user/updateUserDetails",
+  async (userData, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/users`, {
+        name: userData.name,
+        bio: userData.bio,
+        image: userData.image,
+      });
+      if (data.success) {
+        return fulfillWithValue(data.user);
+      }
+    } catch (err) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
 
 export const userSlice = createSlice({
   name: "user",
@@ -13,37 +45,7 @@ export const userSlice = createSlice({
     users: [],
     status: "",
   },
-  reducers: {
-    toggleFollow: (state, { payload }) => {
-      const userIndex = state.users.findIndex(
-        (user) => user._id === payload.user
-      );
-      const currentUserIndex = state.users.findIndex(
-        (user) => user._id === payload.currentUser
-      );
-      if (state.users[userIndex].followers.includes(payload.currentUser)) {
-        state.users[userIndex].followers = state.users[
-          userIndex
-        ].followers.filter((id) => id !== payload.currentUser);
-        state.users[currentUserIndex].following = state.users[
-          currentUserIndex
-        ].following.filter((id) => id !== payload.user);
-      } else {
-        state.users[userIndex].followers = state.users[
-          userIndex
-        ].followers.concat(payload.currentUser);
-        state.users[currentUserIndex].following = state.users[
-          currentUserIndex
-        ].following.concat(payload.user);
-      }
-    },
-    updateProfile: (state, { payload }) => {
-      const userIndex = state.users.findIndex(
-        (user) => user._id === payload._id
-      );
-      state.users[userIndex] = { ...payload };
-    },
-  },
+  reducers: {},
   extraReducers: {
     [getUsers.pending]: (state) => {
       state.status = "loading";
@@ -53,10 +55,27 @@ export const userSlice = createSlice({
       state.status = "fulfilled";
     },
     [getUsers.rejected]: (state, action) => {
-      state.status = "rejected";
+      console.log(action.payload);
+    },
+    [updateUserDetails.fulfilled]: (state, { payload }) => {
+      state.users = state.users.map((user) =>
+        user._id === payload._id ? payload : user
+      );
+    },
+    [toggleFollowButton.fulfilled]: (state, { payload }) => {
+      const userIndex = state.users.findIndex(
+        (user) => user._id === payload.user._id
+      );
+      const viewerIndex = state.users.findIndex(
+        (user) => user._id === payload.viewer._id
+      );
+      state.users[userIndex] = payload.user;
+      state.users[viewerIndex] = payload.viewer;
+    },
+    [toggleFollowButton.rejected]: (state, action) => {
+      console.log(action.payload);
     },
   },
 });
 
-export const { toggleFollow, updateProfile } = userSlice.actions;
 export default userSlice.reducer;

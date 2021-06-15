@@ -18,13 +18,12 @@ import { loadPosts } from "./features/post/postSlice";
 import { PrivateRoute } from "./Components/PrivateRoute";
 import axios from "axios";
 
-
 function App() {
   const dispatch = useDispatch();
-  const login = useSelector(state => state.auth);
+  const login = useSelector((state) => state.auth);
   const currentUser = login.login;
-  const user = useSelector(state => state.users);
-  const posts = useSelector(state => state.posts);
+  const user = useSelector((state) => state.users);
+  const posts = useSelector((state) => state.posts);
 
   useEffect(() => {
     if (currentUser) {
@@ -35,29 +34,35 @@ function App() {
   }, [currentUser]);
 
   useEffect(() => {
-    if(currentUser.token){
+    if (currentUser.token) {
       dispatch(getUsers());
       dispatch(loadPosts());
     }
-  },[currentUser]);
-  
+  }, [currentUser]);
   return (
     <div className="bg-blue-50 text-blue-900 min-h-screen">
       <Navigation />
-      {user.status === "fulfilled" && posts.status === "fulfilled" && (<div className="px-2 min-h-body">
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <PrivateRoute path="/home" element={<Home />} />
-          <PrivateRoute path="/:username" element={<UserProfile />} />
-          <PrivateRoute path="/:username/profile" element={<EditProfile />} />
-          <PrivateRoute path="/:username/following" element={<Following />} />
-          <PrivateRoute path="/:username/followers" element={<Followers />} />
-          <PrivateRoute path="/:username/post/:postId" element={<PostDetails />} />
-          <PrivateRoute path="/search" element={<SearchUsers />} />
-        </Routes>
-      </div>)}
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+      {user.status === "fulfilled" && posts.status === "fulfilled" && (
+        <div className="px-2 min-h-body">
+          <Routes>
+            <PrivateRoute path="/home" element={<Home />} />
+            <PrivateRoute path="/:username" element={<UserProfile />} />
+            <PrivateRoute path="/:username/profile" element={<EditProfile />} />
+            <PrivateRoute path="/:username/following" element={<Following />} />
+            <PrivateRoute path="/:username/followers" element={<Followers />} />
+            <PrivateRoute
+              path="/:username/post/:postId"
+              element={<PostDetails />}
+            />
+            <PrivateRoute path="/search" element={<SearchUsers />} />
+          </Routes>
+        </div>
+      )}
       <Footer />
     </div>
   );

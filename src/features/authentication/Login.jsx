@@ -18,7 +18,8 @@ export const Login = () => {
     if (currentUser.token) {
       navigate("/home");
     }
-  }, [currentUser]);
+  }, [currentUser.token]);
+
 
   const dispatch = useDispatch();
   const loginHandler = async (e) => {

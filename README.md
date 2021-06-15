@@ -4,11 +4,11 @@
 Creating a community for jump ropers around the world! Follow each other's progress and collaborate.
 
 ## Enhancements/Fixes
+* Acknowledge after signup/show error
 * Month in moment showing one month greater
 * Add toastify for toast messages
-* backend for user updates
 * Create a modal for user likes
-* Validity of image URL/image upload, link URL 
+* Login/signup | toggleFollow
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.

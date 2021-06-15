@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { textImage, userImage, link } from "../../utils/styles";
 import { logoutButtonPressed } from "../authentication/authenticationSlice";
 import { Posts } from "../post/Posts";
-import { toggleFollow } from "./userSlice";
+import { toggleFollowButton } from "./userSlice";
 
 export const UserProfile = () => {
   const { username } = useParams();
@@ -27,7 +27,7 @@ export const UserProfile = () => {
       case "Following":
       case "Follow":
         userDispatch(
-          toggleFollow({ currentUser: currentUser._id, user: user._id })
+          toggleFollowButton(user._id)
         );
         break;
       case "Edit Profile":
