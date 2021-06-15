@@ -53,7 +53,7 @@ export const UserCard = ({ userId }) => {
           <section className="mx-3 w-full">
             <h1 onClick={() => navigate(`/${user.username}`)} className="text-2xl font-bold text-blue-900 cursor-pointer hover:underline">{user.name}</h1>
             <h3 onClick={() => navigate(`/${user.username}`)} className="font-medium text-blue-500 cursor-pointer">@{user.username}</h3>
-            <p>{user.bio}</p>
+            <p  className="break-words w-1/2 sm:w-4/6 md:w-8/12">{user.bio}</p>
             {user.link && (
               <span>
                 <i className="fas fa-link text-blue-900"></i>{" "}

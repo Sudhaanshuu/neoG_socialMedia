@@ -39,6 +39,7 @@ function App() {
       dispatch(loadPosts());
     }
   }, [currentUser]);
+  
   return (
     <div className="bg-blue-50 text-blue-900 min-h-screen relative">
       <Navigation />

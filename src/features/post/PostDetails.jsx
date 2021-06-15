@@ -12,6 +12,7 @@ export const PostDetails = () => {
   const commentRef = useRef(null);
   const navigate = useNavigate();
   const { postId, username } = useParams();
+  const status = useSelector(state => state.posts.status);
   const currentUser = useSelector((state) => state.auth.login);
 
   let postData = useSelector((state) => state.posts.posts).find(
@@ -26,8 +27,10 @@ export const PostDetails = () => {
   const [charCount, setCharCount] = useState(0);
 
   useEffect(() => {
-    commentRef.current.focus();
-  }, []);
+    if(status === "fulfilled"){
+      commentRef.current.focus();
+    }
+  }, [status]);
 
   useEffect(() => {
     (async () => {
@@ -36,11 +39,11 @@ export const PostDetails = () => {
     })();
   }, [postData,postId]);
 
-  return (
+  return status === "fulfilled" && (
     <div className="shadow-xl py-1 m-auto w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
       <div className="m-3 p-2 border border-black-900">
         <div className="flex">
-          {user.image ? (
+          {user?.image ? (
             <img
               onClick={() => navigate(`:`)}
               className={userImage}

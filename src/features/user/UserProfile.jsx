@@ -10,16 +10,21 @@ export const UserProfile = () => {
   const { username } = useParams();
   const userDispatch = useDispatch();
   const navigate = useNavigate();
+
+  const status = useSelector(state => state.users.status);
   const user = useSelector((state) => state.users.users).find(
     (user) => user.username === username
   );
   const currentUser = useSelector((state) => state.auth.login);
-  const textForButton =
+
+  const textForButton = user?._id?
     currentUser._id === user._id
       ? "Edit Profile"
       : user.followers.includes(currentUser._id)
       ? "Following"
-      : "Follow";
+      : "Follow"
+      : "";
+
       let userPosts = useSelector((state) => state.posts.posts).filter(post => post.user === user._id);
 
   const buttonClicked = () => {
@@ -37,14 +42,14 @@ export const UserProfile = () => {
         break;
     }
   };
-  return (
+  return status === "fulfilled" && (
     <div className="shadow-xl py-1 m-auto w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
       <div className="m-2 p-1 border border-black-900 relative">
         <div className="flex relative">
-          {textForButton === "Edit Profile" &&  <i onClick={() => {
+          {textForButton === "Edit Profile" &&  <span onClick={() => {
             userDispatch(logoutButtonPressed());
             navigate("/");
-            }} className="fas fa-sign-out-alt absolute right-1 top-1 cursor-pointer"></i>}
+            }} className="absolute right-1 top-1 cursor-pointer text"><small>SignOut </small><i className="fas fa-sign-out-alt "></i></span>}
           <section className="flex flex-col justify-center self-start w-40">
             {user.image ? (
               <img
@@ -71,7 +76,7 @@ export const UserProfile = () => {
           <section className="w-full ml-3 sm:ml-8">
             <h1 className="text-2xl font-bold text-blue-900">{user.name}</h1>
             <h3 className="font-medium text-blue-500">@{username}</h3>
-            <p>{user.bio}</p>
+            <p className="break-words w-1/2 sm:w-4/6 md:w-8/12">{user.bio}</p>
             {user.link && (
               <span>
                 <i className="fas fa-link text-blue-900"></i>{" "}

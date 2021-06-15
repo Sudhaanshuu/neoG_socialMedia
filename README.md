@@ -7,6 +7,7 @@ Creating a community for jump ropers around the world! Follow each other's progr
 * Loader to acknowledge the user action.
 * Add toastify for providing info messages
 * Display the list of users who have liked a post
+* Show posts of only those people whom the current user follows
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
