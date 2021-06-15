@@ -7,53 +7,93 @@ export const loadPosts = createAsyncThunk("post/loadPosts", async () => {
   return response.data;
 });
 
+export const likeButtonPressed = createAsyncThunk(
+  "post/likeButtonPressed",
+  async ({ postId }, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/post/${postId}/like`);
+      if (data.success) {
+        return fulfillWithValue(data.post);
+      }
+    } catch (err) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const commentButtonPressed = createAsyncThunk(
+  "post/commentButtonPressed",
+  async ({ postId, comment }, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/post/${postId}/comment`, {
+        comment,
+      });
+      if (data.success) {
+        return fulfillWithValue({ comments: data.comments, postId });
+      }
+    } catch (err) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const deleteCommentPressed = createAsyncThunk(
+  "post/deleteCommentPressed",
+  async ({ postId, commentId }, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(`${API_URL}/post/${postId}/comment`, {
+        _id: commentId,
+      });
+      if (data.success) {
+        return fulfillWithValue({ commentId, postId });
+      }
+    } catch (err) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const postButtonPressed = createAsyncThunk(
+  "post/postButtonPressed",
+  async ({ postData }, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${API_URL}/post`, {
+        description: postData,
+      });
+      if (data.success) {
+        return fulfillWithValue(data.post);
+      }
+    } catch (err) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const deletePostPressed = createAsyncThunk(
+  "post/deletePostPressed",
+  async (postId, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(`${API_URL}/post`, {
+        _id: postId,
+      });
+      if (data.success) {
+        return fulfillWithValue(postId);
+      }
+    } catch (err) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
 export const postSlice = createSlice({
   name: "post",
   initialState: {
     posts: [],
-    status:"",
+    status: "",
   },
-  reducers: {
-    likeButtonPressed: (state, { payload }) => {
-      const postIndex = state.posts.findIndex(
-        (post) => post._id === payload.postId
-      );
-      if (state.posts[postIndex].likes.includes(payload.user)) {
-        state.posts[postIndex].likes = state.posts[postIndex].likes.filter(
-          (userId) => userId !== payload.user
-        );
-      } else {
-        state.posts[postIndex].likes = state.posts[postIndex].likes.concat(
-          payload.user
-        );
-      }
-    },
-    commentButtonPressed: (state, { payload }) => {
-      let data = {};
-      const postIndex = state.posts.findIndex(
-        (post) => post._id === payload.postId
-      );
-      data._id = `c${state.posts[postIndex].comments.length + 1}`;
-      data.user = payload.user;
-      data.comment = payload.comment;
-      data.created = new Date();
-      state.posts[postIndex].comments =
-        state.posts[postIndex].comments.concat(data);
-    },
-    postButtonPressed: (state, { payload }) => {
-      let newPost = {
-        created: new Date(),
-        likes: [],
-        comments: [],
-      };
-      newPost._id = `p${state.posts.length + 1}`;
-      newPost.description = payload.desc;
-      newPost.user = payload.user;
-      state.posts = state.posts.concat(newPost);
-    },
-  },
-  extraReducers:{
-    [loadPosts.pending]:(state) => {
+  reducers: {},
+  extraReducers: {
+    [loadPosts.pending]: (state) => {
       state.status = "loading";
     },
     [loadPosts.fulfilled]: (state, action) => {
@@ -64,8 +104,53 @@ export const postSlice = createSlice({
       console.log(action);
       state.status = "rejected";
     },
-  }
+    [likeButtonPressed.fulfilled]: (state, { payload }) => {
+      state.posts = state.posts.map((post) =>
+        post._id === payload._id ? payload : post
+      );
+    },
+    [likeButtonPressed.rejected]: (state, action) => {
+      console.log(action);
+      state.status = "rejected";
+    },
+    [commentButtonPressed.fulfilled]: (state, { payload }) => {
+      state.posts = state.posts.map((post) =>
+        post._id === payload.postId
+          ? { ...post, comments: payload.comments }
+          : post
+      );
+    },
+    [commentButtonPressed.rejected]: (state, action) => {
+      console.log(action);
+      state.status = "rejected";
+    },
+    [deleteCommentPressed.fulfilled]: (state, { payload }) => {
+      let postIndex = state.posts.findIndex(
+        (post) => post._id === payload.postId
+      );
+      state.posts[postIndex].comments = state.posts[postIndex].comments.filter(
+        (comment) => comment._id !== payload.commentId
+      );
+    },
+    [deleteCommentPressed.rejected]: (state, action) => {
+      console.log(action);
+      state.status = "rejected";
+    },
+    [postButtonPressed.fulfilled]: (state, { payload }) => {
+      state.posts = state.posts.concat(payload);
+    },
+    [postButtonPressed.rejected]: (state, action) => {
+      console.log(action);
+      state.status = "rejected";
+    },
+    [deletePostPressed.fulfilled]: (state, { payload }) => {
+      state.posts = state.posts.filter((post) => post._id !== payload);
+    },
+    [deletePostPressed.rejected]: (state, action) => {
+      console.log(action);
+      state.status = "rejected";
+    },
+  },
 });
 
-export const { likeButtonPressed, commentButtonPressed, postButtonPressed, clearStatus } = postSlice.actions;
 export default postSlice.reducer;

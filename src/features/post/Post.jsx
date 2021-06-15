@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { getPostedTime } from "../../utils/postedTime";
 import { textImage, userImage } from "../../utils/styles";
-import { likeButtonPressed } from "./postSlice";
+import { deletePostPressed, likeButtonPressed } from "./postSlice";
 
 export const Post = ({ post }) => {
   const postDispatch = useDispatch();
@@ -13,7 +13,8 @@ export const Post = ({ post }) => {
   const postedDate = getPostedTime(new Date(post.createdAt), new Date());
   const navigate = useNavigate();
   return (
-    <div className="m-3 px-1 py-2 border border-black-900 flex">
+    <div className="m-3 px-1 py-2 border border-black-900 flex relative">
+      {post.user === currentUser._id && <i onClick={() => postDispatch(deletePostPressed(post._id))} className="fas fa-trash absolute right-2 cursor-pointer"></i>}
     <section className="w-20">
     {user?.image ? (
         <img
@@ -50,7 +51,7 @@ export const Post = ({ post }) => {
             <span className="pr-2">
               <i
                 className={`pr-1 cursor-pointer fa-lg ${post.likes.includes(currentUser._id)?"fas":"far"} fa-heart text-red-700 hover:opacity-80`}
-                onClick={() => postDispatch(likeButtonPressed({postId:post._id, user: currentUser._id}))}
+                onClick={() => postDispatch(likeButtonPressed({postId:post._id}))}
               ></i>
               {post.likes.length}
             </span>

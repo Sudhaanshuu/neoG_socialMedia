@@ -14,8 +14,7 @@ export const CreatePost = () => {
   const [postData, setPostData] = useState("");
 
   const addPost = () => {
-    console.log("adding post");
-    postDispatch(postButtonPressed({ desc: postData, user: currentUser._id }));
+    postDispatch(postButtonPressed({ postData }));
     setPostData("");
   };
 

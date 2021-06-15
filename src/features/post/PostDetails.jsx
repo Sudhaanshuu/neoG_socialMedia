@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { API_URL } from "../../utils/api_details";
 import { getPostedTime } from "../../utils/postedTime";
 import { primaryBtn, textImage, userImage } from "../../utils/styles";
-import { commentButtonPressed, likeButtonPressed } from "./postSlice";
+import { commentButtonPressed, deleteCommentPressed, likeButtonPressed } from "./postSlice";
 
 export const PostDetails = () => {
   const commentRef = useRef(null);
@@ -22,10 +22,7 @@ export const PostDetails = () => {
     (user) => user.username === username
   );
   const [postComments, setPostComments] = useState([]);
-  const [commentData, setCommentData] = useState({
-    comment: "",
-    user: currentUser.username,
-  });
+  const [commentData, setCommentData] = useState("");
   const [charCount, setCharCount] = useState(0);
 
   useEffect(() => {
@@ -34,10 +31,10 @@ export const PostDetails = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await axios.get(`${API_URL}/post/${postId}/comments`);
+      const { data } = await axios.get(`${API_URL}/post/${postId}/comment`);
       setPostComments(data.comments);
     })();
-  }, []);
+  }, [postData]);
 
   return (
     <div className="shadow-xl py-1 m-auto w-full sm:w-11/12 md:w-3/4 lg:w-1/2">
@@ -72,7 +69,6 @@ export const PostDetails = () => {
                 postDispatch(
                   likeButtonPressed({
                     postId: postData._id,
-                    user: currentUser._id,
                   })
                 )
               }
@@ -97,24 +93,23 @@ export const PostDetails = () => {
           className="border border-black-900 bg-blue-50 p-1.5 w-full h-24 resize-none outline-none focus:ring focus:ring-blue-200"
           placeholder="Write a comment"
           maxLength="280"
-          value={commentData.comment}
+          value={commentData}
           onChange={(e) => {
-            setCommentData((data) => ({ ...data, comment: e.target.value }));
+            setCommentData(e.target.value);
             setCharCount(e.target.value.length);
           }}
         ></textarea>
         <button
           className={`${primaryBtn} ml-0`}
-          disabled={!commentData.comment}
+          disabled={!commentData}
           onClick={() => {
             postDispatch(
               commentButtonPressed({
                 postId,
-                comment: commentData.comment,
-                user: commentData.user,
+                comment: commentData,
               })
             );
-            setCommentData((data) => ({ ...data, comment: "" }));
+            setCommentData("");
           }}
         >
           Comment
@@ -134,7 +129,7 @@ export const PostDetails = () => {
           .map((data) => (
             <div
               key={data._id}
-              className="border border-black-900 p-2 mx-2 my-1"
+              className="border border-black-900 p-2 mx-2 my-1 relative"
             >
               <p className="font-normal">{data.comment}</p>
               <Link
@@ -146,6 +141,7 @@ export const PostDetails = () => {
               <small className="px-1">
                 . {getPostedTime(new Date(data.createdAt), new Date())}
               </small>
+              {data.user._id === currentUser._id && <i onClick={() => postDispatch(deleteCommentPressed({commentId: data._id, postId}))} className="fas fa-trash absolute right-2 bottom-2 cursor-pointer"></i>}
             </div>
           ))}
     </div>
