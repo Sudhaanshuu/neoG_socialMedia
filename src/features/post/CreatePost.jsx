@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { primaryBtn, textImage, userImage } from "../../utils/styles";
-import { postButtonPressed } from "./postSlice";
+import { postButtonPressed, startLoadingPost } from "./postSlice";
 
 export const CreatePost = () => {
   const postDispatch = useDispatch();
@@ -14,8 +14,9 @@ export const CreatePost = () => {
   const [postData, setPostData] = useState("");
 
   const addPost = () => {
-      postDispatch(postButtonPressed({ postData }));
-      setPostData("");
+    postDispatch(startLoadingPost());
+    postDispatch(postButtonPressed({ postData }));
+    setPostData("");
   };
 
   return (

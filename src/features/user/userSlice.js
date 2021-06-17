@@ -44,8 +44,13 @@ export const userSlice = createSlice({
   initialState: {
     users: [],
     status: "",
+    loading: false,
   },
-  reducers: {},
+  reducers: {
+    startLoadingUser: (state) => {
+      state.loading = true;
+    },
+  },
   extraReducers: {
     [getUsers.pending]: (state) => {
       state.status = "loading";
@@ -53,14 +58,22 @@ export const userSlice = createSlice({
     [getUsers.fulfilled]: (state, action) => {
       state.users = action.payload.users;
       state.status = "fulfilled";
+      state.loading = false;
     },
     [getUsers.rejected]: (state, action) => {
-      console.log(action.payload);
+      console.error(action.payload);
+      state.status = "rejected";
+      state.loading = false;
     },
     [updateUserDetails.fulfilled]: (state, { payload }) => {
       state.users = state.users.map((user) =>
         user._id === payload._id ? payload : user
       );
+      state.loading = false;
+    },
+    [updateUserDetails.rejected]: (state, action) => {
+      console.error(action.payload);
+      state.loading = false;
     },
     [toggleFollowButton.fulfilled]: (state, { payload }) => {
       const userIndex = state.users.findIndex(
@@ -71,11 +84,13 @@ export const userSlice = createSlice({
       );
       state.users[userIndex] = payload.user;
       state.users[viewerIndex] = payload.viewer;
+      state.loading = false;
     },
     [toggleFollowButton.rejected]: (state, action) => {
-      console.log(action.payload);
+      console.error(action.payload);
+      state.loading = false;
     },
   },
 });
-
+export const { startLoadingUser } = userSlice.actions;
 export default userSlice.reducer;

@@ -90,8 +90,13 @@ export const postSlice = createSlice({
   initialState: {
     posts: [],
     status: "",
+    loading: false,
   },
-  reducers: {},
+  reducers: {
+    startLoadingPost: (state) => {
+      state.loading = true;
+    },
+  },
   extraReducers: {
     [loadPosts.pending]: (state) => {
       state.status = "loading";
@@ -99,20 +104,22 @@ export const postSlice = createSlice({
     [loadPosts.fulfilled]: (state, action) => {
       state.posts = action.payload.posts;
       state.status = "fulfilled";
+      state.loading = false;
     },
     [loadPosts.rejected]: (state, action) => {
-      console.log(action.payload);
+      console.error(action.payload);
       state.status = "rejected";
+      state.loading = false;
     },
     [likeButtonPressed.fulfilled]: (state, { payload }) => {
       state.posts = state.posts.map((post) =>
         post._id === payload._id ? payload : post
       );
-      state.status = "fulfilled";
+      state.loading = false;
     },
     [likeButtonPressed.rejected]: (state, action) => {
-      console.log(action.payload);
-      state.status = "rejected";
+      console.error(action.payload);
+      state.loading = false;
     },
     [commentButtonPressed.fulfilled]: (state, { payload }) => {
       state.posts = state.posts.map((post) =>
@@ -120,11 +127,11 @@ export const postSlice = createSlice({
           ? { ...post, comments: payload.comments }
           : post
       );
-      state.status = "fulfilled";
+      state.loading = false;
     },
     [commentButtonPressed.rejected]: (state, action) => {
-      console.log(action.payload);
-      state.status = "rejected";
+      console.error(action.payload);
+      state.loading = false;
     },
     [deleteCommentPressed.fulfilled]: (state, { payload }) => {
       let postIndex = state.posts.findIndex(
@@ -133,29 +140,29 @@ export const postSlice = createSlice({
       state.posts[postIndex].comments = state.posts[postIndex].comments.filter(
         (comment) => comment._id !== payload.commentId
       );
-      state.status = "fulfilled";
+      state.loading = false;
     },
     [deleteCommentPressed.rejected]: (state, action) => {
-      console.log(action.payload);
-      state.status = "rejected";
+      console.error(action.payload);
+      state.loading = false;
     },
     [postButtonPressed.fulfilled]: (state, { payload }) => {
       state.posts = state.posts.concat(payload);
-      state.status = "fulfilled";
+      state.loading = false;
     },
     [postButtonPressed.rejected]: (state, action) => {
-      console.log(action.payload);
-      state.status = "rejected";
+      console.error(action.payload);
+      state.loading = false;
     },
     [deletePostPressed.fulfilled]: (state, { payload }) => {
       state.posts = state.posts.filter((post) => post._id !== payload);
-      state.status = "fulfilled";
+      state.loading = false;
     },
     [deletePostPressed.rejected]: (state, action) => {
-      console.log(action.payload);
-      state.status = "rejected";
+      console.error(action.payload);
+      state.loading = false;
     },
   },
 });
-
+export const { startLoadingPost } = postSlice.actions;
 export default postSlice.reducer;

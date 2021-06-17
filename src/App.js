@@ -13,10 +13,11 @@ import { EditProfile } from "./features/user/EditProfile";
 import { Login } from "./features/authentication/Login";
 import { Signup } from "./features/authentication/Signup";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "./features/user/userSlice";
-import { loadPosts } from "./features/post/postSlice";
+import { getUsers, startLoadingUser } from "./features/user/userSlice";
+import { loadPosts, startLoadingPost } from "./features/post/postSlice";
 import { PrivateRoute } from "./Components/PrivateRoute";
 import axios from "axios";
+import Loader from "react-loader-spinner";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,14 +36,24 @@ function App() {
 
   useEffect(() => {
     if (currentUser.token) {
+      dispatch(startLoadingUser());
+      dispatch(startLoadingPost());
       dispatch(getUsers());
       dispatch(loadPosts());
     }
   }, [currentUser]);
-  
   return (
     <div className="bg-blue-50 text-blue-900 min-h-screen relative">
       <Navigation />
+      {(user.loading || !posts.loading) && (
+        <Loader
+          className="z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          type="Oval"
+          color="#1e3a8a"
+          height={40}
+          width={40}
+        />
+      )}
       <div className="px-2 min-h-body">
         <Routes>
           <Route path="/" element={<Landing />} />
