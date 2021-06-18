@@ -1,14 +1,14 @@
 [![wakatime](https://wakatime.com/badge/github/supminn/neoG_socialMedia.svg)](https://wakatime.com/badge/github/supminn/neoG_socialMedia)
 
 # Social Media App - Socialize
+
 Creating a community for jump ropers around the world! Follow each other's progress and collaborate.
 
 ## Enhancements/Fixes
-* Loader to acknowledge the user action.
-* Add toastify for providing info messages
-* Display the list of users who have liked a post
-* Show posts of only those people whom the current user follows
 
+- Display the list of users who have liked a post
+- Show posts of only those people whom the current user follows
+- Notification section
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 

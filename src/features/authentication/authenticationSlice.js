@@ -22,13 +22,16 @@ export const loginUser = createAsyncThunk(
 
 export const registerUser = createAsyncThunk(
   "authetication/registerUser",
-  async ({ username, password, name, email }, { fulfillWithValue, rejectWithValue }) => {
+  async (
+    { username, password, name, email },
+    { fulfillWithValue, rejectWithValue }
+  ) => {
     try {
       const { data } = await axios.post(`${API_URL}/users/signup`, {
         username,
         password,
         name,
-        email
+        email,
       });
       if (data.success) {
         return fulfillWithValue(data.success);
@@ -38,7 +41,6 @@ export const registerUser = createAsyncThunk(
     }
   }
 );
-
 
 export const authenticationSlice = createSlice({
   name: "authentication",
@@ -50,7 +52,8 @@ export const authenticationSlice = createSlice({
     },
     error: "",
     status: "",
-    signup:false
+    signup: false,
+    loading: false,
   },
   reducers: {
     logoutButtonPressed: (state) => {
@@ -59,7 +62,10 @@ export const authenticationSlice = createSlice({
     },
     clearSignupFlag: (state) => {
       state.signup = false;
-    }
+    },
+    startLoadingAuth: (state) => {
+      state.loading = true;
+    },
   },
   extraReducers: {
     [loginUser.pending]: (state) => {
@@ -77,21 +83,26 @@ export const authenticationSlice = createSlice({
       localStorage.setItem("login", JSON.stringify(login));
       state.login = login;
       state.status = "fulfilled";
+      state.loading = false;
     },
     [loginUser.rejected]: (state, action) => {
       state.error = action.payload;
       state.status = "rejected";
+      state.loading = false;
     },
-    [registerUser.fulfilled]:(state,action) =>{
+    [registerUser.fulfilled]: (state, action) => {
       state.signup = action.payload;
       state.error = "";
+      state.loading = false;
     },
     [registerUser.rejected]: (state, action) => {
       state.error = action.payload;
       state.status = "rejected";
+      state.loading = false;
     },
   },
 });
 
-export const { logoutButtonPressed, clearSignupFlag } = authenticationSlice.actions;
+export const { logoutButtonPressed, clearSignupFlag, startLoadingAuth } =
+  authenticationSlice.actions;
 export default authenticationSlice.reducer;

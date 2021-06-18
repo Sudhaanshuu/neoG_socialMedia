@@ -45,7 +45,7 @@ function App() {
   return (
     <div className="bg-blue-50 text-blue-900 min-h-screen relative">
       <Navigation />
-      {(user.loading || !posts.loading) && (
+      {(user.loading || posts.loading) && (
         <Loader
           className="z-50 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           type="Oval"

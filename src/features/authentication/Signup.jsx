@@ -2,26 +2,59 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { primaryBtn, secondaryBtn } from "../../utils/styles";
-import { clearSignupFlag, registerUser } from "./authenticationSlice";
+import {
+  clearSignupFlag,
+  registerUser,
+  startLoadingAuth,
+} from "./authenticationSlice";
 import { Password } from "./Password";
 
 export const Signup = () => {
-  const [{ username, password, email, name }, setCredentials] = useState({
-    name: "",
-    email: "",
-    username: "",
-    password: "",
-  });
+  const [{ username, password, email, name, error }, setCredentials] = useState(
+    {
+      name: "",
+      email: "",
+      username: "",
+      password: "",
+      error: "",
+    }
+  );
 
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
   const signupHandler = async (e) => {
     e.preventDefault();
-    await dispatch(registerUser({ username, password, email, name }));
+    if (!isPasswordValid()) {
+      setCredentials((data) => ({
+        ...data,
+        error:
+          "Password must contain at least 8 characters, at least 1 number and both lower and uppercase letters.",
+      }));
+    } else {
+      dispatch(startLoadingAuth());
+      await dispatch(registerUser({ username, password, email, name }));
+      setCredentials((data) => ({
+        name: "",
+        email: "",
+        username: "",
+        password: "",
+        error: "",
+      }));
+    }
   };
 
-  return auth.signup?<Registered/>:(
+  const isPasswordValid = () => {
+    if (
+      password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/) ==
+      null
+    )
+      return false;
+    else return true;
+  };
+  return auth.signup ? (
+    <Registered />
+  ) : (
     <div className="shadow-xl pb-1 m-auto w-full sm:w-11/12 md:w-3/4 lg:w-8/12 text-center">
       <h2 className="text-2xl font-medium m-3">
         Sign <span className="text-yellow-700">up</span>
@@ -72,7 +105,7 @@ export const Signup = () => {
           </span>
           <input
             required
-            className="p-2 rounded-sm border border-transparent  focus:outline-none focus:ring-2 focus:ring-blue-900 w-3/4"
+            className="p-2 rounded-sm border border-transparent focus:outline-none focus:ring-2 focus:ring-blue-900 w-3/4"
             type="email"
             value={email}
             onChange={(e) =>
@@ -85,6 +118,7 @@ export const Signup = () => {
           />
         </div>
         <Password userValue={password} setCredentials={setCredentials} />
+        {error && <p className="text-red-600 pt-3">{error}</p>}
         <button type="submit" className={`${primaryBtn} mt-2`}>
           Register
         </button>
@@ -102,13 +136,20 @@ export const Signup = () => {
   );
 };
 
-
 const Registered = () => {
   const userDispatch = useDispatch();
-  return(
+  return (
     <div className="shadow-xl pb-1 m-auto w-full sm:w-11/12 md:w-3/4 lg:w-8/12 text-center min-h-body">
-      <h3 className="text-2xl p-4">Thank you for signing up on <b>SupSocial</b>.</h3>
-      <Link onClick={()=>userDispatch(clearSignupFlag())} className={secondaryBtn} to="/login">Login to continue</Link> 
+      <h3 className="text-2xl p-4">
+        Thank you for signing up on <b>SupSocial</b>.
+      </h3>
+      <Link
+        onClick={() => userDispatch(clearSignupFlag())}
+        className={secondaryBtn}
+        to="/login"
+      >
+        Login to continue
+      </Link>
     </div>
-  )
-}
+  );
+};

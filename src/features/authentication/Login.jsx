@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { Password } from "./Password";
 import { primaryBtn, secondaryBtn } from "../../utils/styles";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "./authenticationSlice";
+import { loginUser, startLoadingAuth } from "./authenticationSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { startLoadingUser } from "../user/userSlice";
 
 export const Login = () => {
   const [{ username, password }, setCredentials] = useState({
@@ -20,10 +21,10 @@ export const Login = () => {
     }
   }, [currentUser.token]);
 
-
   const dispatch = useDispatch();
   const loginHandler = async (e) => {
     e.preventDefault();
+    dispatch(startLoadingAuth());
     await dispatch(loginUser({ username, password }));
   };
 

@@ -29,6 +29,7 @@ export const updateUserDetails = createAsyncThunk(
         name: userData.name,
         bio: userData.bio,
         image: userData.image,
+        link: userData.link,
       });
       if (data.success) {
         return fulfillWithValue(data.user);
