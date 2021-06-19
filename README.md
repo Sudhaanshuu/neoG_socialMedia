@@ -35,7 +35,8 @@ SupSocial is a social media application that creates a community for jump ropers
 ## Live link and demo
 
 [Deployed link](https://deploy-preview-1--supsocial.netlify.app/)
---video
+
+https://user-images.githubusercontent.com/30731236/122636766-96825700-d108-11eb-9ab5-f8ddb04c076a.mp4
 
 ## Instructions on using SupSocial locally
 
