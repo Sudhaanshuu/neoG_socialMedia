@@ -29,11 +29,11 @@ export const EditProfile = () => {
     e.preventDefault();
     if (
       user.link &&
-      !/(http(s)?:\/\/.)?[-a-zA-Z0-9@:%.+_~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/.test(
+      !/(http(s)?:\/\/.)?[-a-zA-Z0-9@:%.+_~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&\/=]*)/.test(
         user.link
       )
     ) {
-      setError("Invalid link URL.");
+      setError("Invalid link URL. Please provide a valid link");
     } else {
       userDispatch(updateUserDetails(user));
       navigate(`/${username}`);

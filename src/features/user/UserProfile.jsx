@@ -90,7 +90,7 @@ export const UserProfile = () => {
                   <i className="fas fa-link text-blue-900"></i>{" "}
                   <a
                     className={link}
-                    href={user.link}
+                    href={`//${user.link}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
