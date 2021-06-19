@@ -1,16 +1,67 @@
 [![wakatime](https://wakatime.com/badge/github/supminn/neoG_socialMedia.svg)](https://wakatime.com/badge/github/supminn/neoG_socialMedia)
 
-# Social Media App - Socialize
+# SupSocial
 
-Creating a community for jump ropers around the world! Follow each other's progress and collaborate.
+SupSocial is a social media application that creates a community for jump ropers around the world! Follow each other's progress and collaborate.
 
-## Enhancements/Fixes
+## Technology Stack
+
+- React - Redux-Toolkit
+- Styling using [TailwindCSS](https://tailwindcss.com/)
+- React Router v6 (beta) for routes
+- Cloudinary for image upload
+- Express & Node for API [Repo Link](https://github.com/supminn/neoG_Backend/)
+- MongoDB using mongoose for data storage
+- User authentication using JWT
+
+## Functionalities
+
+- View user feeds
+- Compose posts
+- Like posts
+- Add multiple comments on one post
+- Delete posts or comments created by logged in user.
+- View user profile, posts, list of followers and following users
+- Follow/Unfollow individual user
+- View and update details such as - picture, name, bio, website links.
+- Search for users within SupSocial
+
+## Enhancements
 
 - Display the list of users who have liked a post
-- Show posts of only those people whom the current user follows
 - Notification section
+- Show posts of only those people whom the current user follows
+
+## Live link and demo
+
+[Deployed link](https://deploy-preview-1--supsocial.netlify.app/)
+--video
+
+## Instructions on using SupSocial locally
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+
+This starter kit could be installed in 2 ways.
+
+1. Clone this repository and start working on the development.
+2. Using [degit](https://github.com/Rich-Harris/degit).
+
+### Instructions while using degit
+
+degit installation:
+
+```bash
+yarn install -g degit
+```
+
+Follow the below instructions to use this starter kit:
+
+```
+degit supminn/neoG_socialMedia my-app-name
+cd my-app-name
+
+yarn install
+```
 
 ## Available Scripts
 

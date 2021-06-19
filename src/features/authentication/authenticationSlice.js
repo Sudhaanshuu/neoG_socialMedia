@@ -8,7 +8,7 @@ export const loginUser = createAsyncThunk(
   async ({ username, password }, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/users/login`, {
-        username,
+        username: username.toLowerCase(),
         password,
       });
       if (data.success) {
@@ -28,7 +28,7 @@ export const registerUser = createAsyncThunk(
   ) => {
     try {
       const { data } = await axios.post(`${API_URL}/users/signup`, {
-        username,
+        username: username.toLowerCase(),
         password,
         name,
         email,
