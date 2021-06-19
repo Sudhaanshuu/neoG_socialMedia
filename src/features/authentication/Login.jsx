@@ -4,7 +4,6 @@ import { primaryBtn, secondaryBtn } from "../../utils/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser, startLoadingAuth } from "./authenticationSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { startLoadingUser } from "../user/userSlice";
 
 export const Login = () => {
   const [{ username, password }, setCredentials] = useState({

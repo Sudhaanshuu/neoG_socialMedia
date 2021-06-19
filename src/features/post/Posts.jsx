@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { primaryBtn, secondaryBtn } from "../../utils/styles";
+import { secondaryBtn } from "../../utils/styles";
 import { Post } from "./Post";
 
 export const Posts = ({ userPosts }) => {

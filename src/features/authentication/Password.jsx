@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-
 export const Password = ({ userValue, setCredentials }) => {
   const [viewPwd, setViewPwd] = useState(false);
 
@@ -19,7 +18,10 @@ export const Password = ({ userValue, setCredentials }) => {
         }
         placeholder="Password"
       />
-      <span className="p-2 bg-blue-900 text-blue-50 rounded-sm" onClick={() => setViewPwd((val) => !val)}>
+      <span
+        className="p-2 bg-blue-900 text-blue-50 rounded-sm"
+        onClick={() => setViewPwd((val) => !val)}
+      >
         <i className="fas fa-eye fa-lg"></i>
       </span>
     </div>

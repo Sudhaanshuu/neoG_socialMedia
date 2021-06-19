@@ -1,5 +1,4 @@
-import { CreatePost } from "../features/post/CreatePost";
-import { Posts } from "../features/post/Posts";
+import { CreatePost, Posts } from "../features";
 
 export const Home = () => {
   return (

@@ -29,7 +29,7 @@ SupSocial is a social media application that creates a community for jump ropers
 ## Enhancements
 
 - Display the list of users who have liked a post
-- Notification section
+- Notifications on user activity
 - Show posts of only those people whom the current user follows
 
 ## Live link and demo
