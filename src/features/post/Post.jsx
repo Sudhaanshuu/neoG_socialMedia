@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { getPostedTime } from "../../utils/postedTime";
 import { textImage, userImage } from "../../utils/styles";
+import { LikedUsersList } from "./LikedUsersList";
 import {
   deletePostPressed,
   likeButtonPressed,
@@ -16,6 +18,8 @@ export const Post = ({ post }) => {
   const currentUser = useSelector((state) => state.auth.login);
   const postedDate = getPostedTime(new Date(post.createdAt), new Date());
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className="m-3 px-1 py-2 border border-black-900 flex relative">
       {post.user === currentUser._id && (
@@ -75,7 +79,12 @@ export const Post = ({ post }) => {
                   postDispatch(likeButtonPressed({ postId: post._id }));
                 }}
               ></i>
-              {post.likes.length}
+              <span
+                onClick={() => setShowModal(true)}
+                className="hover:underline cursor-pointer"
+              >
+                {post.likes.length}
+              </span>
             </span>
             <span className="px-2">
               <i
@@ -87,8 +96,10 @@ export const Post = ({ post }) => {
           </div>
         </section>
       </div>
+
+      {showModal && (
+        <LikedUsersList setShowModal={setShowModal} postId={post._id} />
+      )}
     </div>
   );
 };
-
-// you would have current user id, if it is within the like array, show fas,else far. heart
