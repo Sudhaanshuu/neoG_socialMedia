@@ -13,5 +13,7 @@ export { SearchUsers } from "./user/SearchUsers";
 export { UserProfile } from "./user/UserProfile";
 export { EditProfile } from "./user/EditProfile";
 
+export { Notifications } from "./notifications/Notifications";
+
 export { getUsers, startLoadingUser } from "./user/userSlice";
 export { loadPosts, startLoadingPost } from "./post/postSlice";

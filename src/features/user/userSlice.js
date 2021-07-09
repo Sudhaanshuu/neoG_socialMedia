@@ -13,6 +13,13 @@ export const toggleFollowButton = createAsyncThunk(
     try {
       const { data } = await axios.put(`${API_URL}/users`, { viewerId });
       if (data.success) {
+        // call notify api with appropriate action if 'followed'
+        if (data.user.following.includes(viewerId)) {
+          await axios.post(`${API_URL}/notify`, {
+            notifiedUser: viewerId,
+            actionType: "follow",
+          });
+        }
         return fulfillWithValue({ user: data.user, viewer: data.viewer });
       }
     } catch (err) {

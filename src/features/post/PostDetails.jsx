@@ -118,6 +118,7 @@ export const PostDetails = () => {
                 commentButtonPressed({
                   postId,
                   comment: commentData,
+                  postedUser: user._id,
                 })
               );
               setCommentData("");

@@ -76,7 +76,12 @@ export const Post = ({ post }) => {
                 } fa-heart text-red-700 hover:opacity-80`}
                 onClick={() => {
                   postDispatch(startLoadingPost());
-                  postDispatch(likeButtonPressed({ postId: post._id }));
+                  postDispatch(
+                    likeButtonPressed({
+                      postId: post._id,
+                      postedUser: post.user,
+                    })
+                  );
                 }}
               ></i>
               <span

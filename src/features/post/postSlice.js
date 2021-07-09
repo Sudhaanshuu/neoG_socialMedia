@@ -9,10 +9,16 @@ export const loadPosts = createAsyncThunk("post/loadPosts", async () => {
 
 export const likeButtonPressed = createAsyncThunk(
   "post/likeButtonPressed",
-  async ({ postId }, { fulfillWithValue, rejectWithValue }) => {
+  async ({ postId, postedUser }, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${API_URL}/post/${postId}/like`);
       if (data.success) {
+        // call notify api with appropriate action
+        await axios.post(`${API_URL}/notify`, {
+          notifiedUser: postedUser,
+          actionType: "like",
+          post: postId,
+        });
         return fulfillWithValue(data.post);
       }
     } catch (err) {
@@ -23,12 +29,22 @@ export const likeButtonPressed = createAsyncThunk(
 
 export const commentButtonPressed = createAsyncThunk(
   "post/commentButtonPressed",
-  async ({ postId, comment }, { fulfillWithValue, rejectWithValue }) => {
+  async (
+    { postId, comment, postedUser },
+    { fulfillWithValue, rejectWithValue }
+  ) => {
     try {
       const { data } = await axios.post(`${API_URL}/post/${postId}/comment`, {
         comment,
       });
       if (data.success) {
+        // call notify api with appropriate action
+        await axios.post(`${API_URL}/notify`, {
+          notifiedUser: postedUser,
+          actionType: "comment",
+          post: postId,
+        });
+
         return fulfillWithValue({ comments: data.comments, postId });
       }
     } catch (err) {
