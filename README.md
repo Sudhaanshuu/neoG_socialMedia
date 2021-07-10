@@ -25,6 +25,8 @@ SupSocial is a social media application that creates a community for jump ropers
 - Follow/Unfollow individual user
 - View and update details such as - picture, name, bio, website links.
 - Search for users within SupSocial
+- List of users who have liked a post
+- Notifications on user activity
 
 ## Enhancements
 
