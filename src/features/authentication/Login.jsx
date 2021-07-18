@@ -58,6 +58,18 @@ export const Login = () => {
         <button type="submit" className={`${primaryBtn} mt-2`}>
           Login
         </button>
+        <p
+          className="font-semibold text-blue-900 hover:text-yellow-700 cursor-pointer hover:underline"
+          onClick={() =>
+            setCredentials((credentials) => ({
+              ...credentials,
+              username: "tester",
+              password: "Testing1",
+            }))
+          }
+        >
+          Use test credentials
+        </p>
         {auth.error && (
           <p className="text-red-600 text-lg pt-3">{auth.error}</p>
         )}
