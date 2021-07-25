@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Loader from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { primaryBtn, secondaryBtn } from "../../utils/styles";
@@ -132,6 +133,15 @@ export const Signup = () => {
           <button className={`${secondaryBtn} mt-2`}>Login</button>
         </Link>
       </div>
+      {auth.loading && (
+        <Loader
+          className="m-auto w-min"
+          type="Oval"
+          color="#1e3a8a"
+          height={40}
+          width={40}
+        />
+      )}
     </div>
   );
 };

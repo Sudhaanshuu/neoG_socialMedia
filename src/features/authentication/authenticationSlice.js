@@ -66,6 +66,9 @@ export const authenticationSlice = createSlice({
     startLoadingAuth: (state) => {
       state.loading = true;
     },
+    clearErrorMessage: (state) => {
+      state.error = "";
+    },
   },
   extraReducers: {
     [loginUser.pending]: (state) => {
@@ -103,6 +106,10 @@ export const authenticationSlice = createSlice({
   },
 });
 
-export const { logoutButtonPressed, clearSignupFlag, startLoadingAuth } =
-  authenticationSlice.actions;
+export const {
+  logoutButtonPressed,
+  clearSignupFlag,
+  startLoadingAuth,
+  clearErrorMessage,
+} = authenticationSlice.actions;
 export default authenticationSlice.reducer;

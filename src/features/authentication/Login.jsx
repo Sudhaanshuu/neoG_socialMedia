@@ -2,8 +2,13 @@ import { useEffect, useState } from "react";
 import { Password } from "./Password";
 import { primaryBtn, secondaryBtn } from "../../utils/styles";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser, startLoadingAuth } from "./authenticationSlice";
+import {
+  clearErrorMessage,
+  loginUser,
+  startLoadingAuth,
+} from "./authenticationSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Loader from "react-loader-spinner";
 
 export const Login = () => {
   const [{ username, password }, setCredentials] = useState({
@@ -18,6 +23,7 @@ export const Login = () => {
     if (currentUser.token) {
       navigate("/home");
     }
+    return () => dispatch(clearErrorMessage());
   }, [currentUser.token]);
 
   const dispatch = useDispatch();
@@ -81,6 +87,16 @@ export const Login = () => {
           <button className={`${secondaryBtn} mt-2`}>Sign up</button>
         </Link>
       </div>
+
+      {auth.loading && (
+        <Loader
+          className="m-auto w-min"
+          type="Oval"
+          color="#1e3a8a"
+          height={40}
+          width={40}
+        />
+      )}
     </div>
   );
 };

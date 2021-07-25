@@ -19,7 +19,6 @@ export const Post = ({ post }) => {
   const postedDate = getPostedTime(new Date(post.createdAt), new Date());
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-
   return (
     <div className="m-3 px-1 py-2 border border-black-900 flex relative">
       {post.user === currentUser._id && (
