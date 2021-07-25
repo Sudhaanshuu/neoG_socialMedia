@@ -13,7 +13,6 @@ export const likeButtonPressed = createAsyncThunk(
     try {
       const { data } = await axios.post(`${API_URL}/post/${postId}/like`);
       if (data.success) {
-        // call notify api with appropriate action
         await axios.post(`${API_URL}/notify`, {
           notifiedUser: postedUser,
           actionType: "like",
@@ -38,7 +37,6 @@ export const commentButtonPressed = createAsyncThunk(
         comment,
       });
       if (data.success) {
-        // call notify api with appropriate action
         await axios.post(`${API_URL}/notify`, {
           notifiedUser: postedUser,
           actionType: "comment",

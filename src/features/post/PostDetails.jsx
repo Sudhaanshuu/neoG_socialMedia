@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import Loader from "react-loader-spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -30,6 +31,7 @@ export const PostDetails = () => {
   const [postComments, setPostComments] = useState([]);
   const [commentData, setCommentData] = useState("");
   const [charCount, setCharCount] = useState(0);
+  const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
     if (status === "fulfilled") {
@@ -39,8 +41,10 @@ export const PostDetails = () => {
 
   useEffect(() => {
     (async () => {
+      setShowLoader(true);
       const { data } = await axios.get(`${API_URL}/post/${postId}/comment`);
       setPostComments(data.comments);
+      setShowLoader(false);
     })();
   }, [postData, postId]);
 
@@ -166,6 +170,15 @@ export const PostDetails = () => {
                 )}
               </div>
             ))}
+        {showLoader && (
+          <Loader
+            className="m-auto w-min"
+            type="Oval"
+            color="#1e3a8a"
+            height={40}
+            width={40}
+          />
+        )}
       </div>
     )
   );

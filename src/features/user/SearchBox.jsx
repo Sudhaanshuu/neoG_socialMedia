@@ -12,7 +12,7 @@ export const SearchBox = () => {
       searchForUser();
     }
   };
-  
+
   return (
     <div className="flex justify-center items-center py-2">
       <input
