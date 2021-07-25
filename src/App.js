@@ -41,14 +41,16 @@ function App() {
   }, [currentUser]);
 
   useEffect(() => {
-    if (currentUser.token) {
-      dispatch(startLoadingUser());
-      dispatch(startLoadingPost());
-      dispatch(startLoadingNotifications());
-      dispatch(getUsers());
-      dispatch(loadPosts());
-      dispatch(getUserNotifications());
-    }
+    (async () => {
+      if (currentUser.token) {
+        dispatch(startLoadingUser());
+        dispatch(startLoadingPost());
+        dispatch(startLoadingNotifications());
+        await dispatch(getUsers());
+        await dispatch(loadPosts());
+        await dispatch(getUserNotifications());
+      }
+    })();
   }, [currentUser]);
 
   return (
